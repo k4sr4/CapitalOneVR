@@ -16,18 +16,8 @@ public class Raycast : MonoBehaviour {
 
     public Text quickText, ventureText, platinumText;
 
-    GameObject invisFloor;
-    Vector3 lastPosition;
-    bool eyesOnCapOne = false;
-
     public int correctPics = 0;
-
-    void Start()
-    {
-        invisFloor = GameObject.FindGameObjectWithTag("InvisibleFloor");        
-        lastPosition = new Vector3(0, 0, 0);
-    }
-	
+    bool canOpen = true;    
 	// Update is called once per frame
 	void Update () {
         Vector3 fwd = transform.TransformDirection(Vector3.forward);
@@ -55,7 +45,12 @@ public class Raycast : MonoBehaviour {
                     {
                         hit.collider.transform.position = new Vector3(transform.position.x, transform.position.y + 0.4f, transform.position.z - 1.5f);
                     }
-                    hit.collider.transform.parent = this.transform;             
+                    hit.collider.transform.parent = this.transform;
+
+                    if (hit.collider.gameObject.name == "Samuel")
+                    {
+                        FindObjectOfType<SamPictureSound>().PlaySound();
+                    }
                 }
             }
             else if (hit.collider.tag == "Venture")
@@ -74,30 +69,13 @@ public class Raycast : MonoBehaviour {
             {
                 eyesOnKeypad = true;
             }
-            else if (hit.collider.tag == "CapOne")
-            {
-                eyesOnCapOne = true;
-                if (invisFloor != null)
-                {
-                    invisFloor.GetComponent<MeshCollider>().enabled = true;
-                    Debug.Log("FLOOR ON");
-                }
-            }
             
             
         }
-        if (isPlayerMoving() && !eyesOnCapOne)
-        {
-            if (invisFloor != null)
-            {
-                invisFloor.GetComponent<MeshCollider>().enabled = false;
-                Debug.Log("FLOOR OFF");
-            }
-        }
-        eyesOnCapOne = false;
 
-        if (correctPics == 3)
+        if (correctPics == 3 && canOpen == true)
         {
+            canOpen = false;
             GameObject.FindObjectOfType<OpenDoor>().openDoor();
         }
 
@@ -106,15 +84,6 @@ public class Raycast : MonoBehaviour {
             GameObject.FindObjectOfType<OVRPlayerController>().canMove = false;
         }
 	}
-
-    bool isPlayerMoving()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            return true;
-        }
-        return false;
-    }
 
     void OnTriggerStay(Collider other)
     {

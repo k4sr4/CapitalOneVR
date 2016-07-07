@@ -30,7 +30,7 @@ public class OpenDoor : MonoBehaviour {
     {
         GameObject thedoor = GameObject.Find("door");
         Vector3 vect = thedoor.transform.position;
-        Vector3 vect2 = vect + new Vector3(0, 5f, 0);
+        Vector3 vect2 = vect + new Vector3(0, 2.5f, 0);
         StartCoroutine(MoveOverSeconds(thedoor, vect2, 5f));
     }
 }

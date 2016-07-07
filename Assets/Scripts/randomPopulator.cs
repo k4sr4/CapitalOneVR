@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class randomPopulator : MonoBehaviour {
 
 	public GameObject chasePrefab;
-	public GameObject capOnePrefab;
 	public GameObject citiPrefab;
 
 	int xLowerBound;
@@ -29,7 +28,7 @@ public class randomPopulator : MonoBehaviour {
 		yLowerBound = 0;
 		yUpperBound = 3;
 
-		numOfElements = 30;
+		numOfElements = 15;
 
 		prefabList = new List<GameObject>();
 
@@ -40,10 +39,10 @@ public class randomPopulator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		/*if (Time.frameCount % 2000 == 1) {
+		if (Time.frameCount % 360 == 1) {
 			destroyElements ();
 			generateElements ();
-		}*/
+		}
 
 	}
 
@@ -72,8 +71,6 @@ public class randomPopulator : MonoBehaviour {
 	private GameObject companySelector(){
 		int selector = Random.Range (1, 3);	
 		if(selector == 1){
-			return capOnePrefab;
-		} else if(selector == 2){
 			return chasePrefab;
 		} else {
 			return citiPrefab;
